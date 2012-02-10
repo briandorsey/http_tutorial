@@ -1,0 +1,31 @@
+
+This repository contains the support materials for a tutorial introducing the
+basics of HTTP by building a simple HTTP server from scratch.
+
+Unless otherwise attributed, all of the content is licensed with a Creative
+Commons Attribution 3.0 Unported (CC BY 3.0).
+http://creativecommons.org/licenses/by/3.0/
+
+
+------
+
+Let's build a dynamic HTTP server from scratch
+
+We will cover just enough networking and HTTP to build a simple working server.
+You will finish this tutorial with a 100 line HTTP server and completely
+understand it.
+
+Modern web frameworks hide most of the messy details of web programming and
+present an abstration for us to work with. Unfortunately, they often hide the
+clean simplicity of HTTP itself. If you're new to web programming, or have only
+used frameworks, it is hard to see exactly what an HTTP header is, or how an
+HTTP verb is specified on the wire. In this tutorial, we're going to start at
+the bottom, and work our way up to the HTTP fundamentals common to all web
+frameworks. As complex as web programming can be, we'll see that HTTP is clear
+and simple.
+
+We will look at basic TCP/IP, the socket abstraction, request/response
+protocols, HTTP verbs, and HTTP headers.  Each of these is a topic worthy of in
+depth study itself, but we're going to skim them all, taking just what we need
+to build a working HTTP server.
+
