@@ -12,20 +12,23 @@
 #  30 minutes coding to first page fetched
 #   3 hours making it prettier & more pythonic
 #
-# updated for UW Internet Programming in Python, by Brian Dorsey
+# updated by Brian Dorsey
 #
 
-import os, socket, sys
+import os
+import socket
+import sys
 
-defaults = ['127.0.0.1', '8080']
-mime_types = {'.jpg' : 'image/jpg', 
-             '.gif' : 'image/gif', 
-             '.png' : 'image/png',
-             '.html' : 'text/html', 
-             '.pdf' : 'application/pdf'}
-response = {}
+host = ""
+port = 8080
+mime_types = {'.jpg': 'image/jpg',
+             '.gif': 'image/gif',
+             '.png': 'image/png',
+             '.html': 'text/html',
+             '.pdf': 'application/pdf'}
+response_headers = {}
 
-response[200] =\
+response_headers[200] =\
 """HTTP/1.0 200 Okay
 Server: ws30
 Content-type: %s
@@ -33,7 +36,7 @@ Content-type: %s
 %s
 """
 
-response[301] =\
+response_headers[301] =\
 """HTTP/1.0 301 Moved
 Server: ws30
 Content-type: text/plain
@@ -42,7 +45,7 @@ Location: %s
 moved
 """
 
-response[404] =\
+response_headers[404] =\
 """HTTP/1.0 404 Not Found
 Server: ws30
 Content-type: text/plain
@@ -62,25 +65,27 @@ DIRECTORY_LISTING =\
 
 DIRECTORY_LINE = '<a href="%s">%s</a><br>'
 
+
 def server_socket(host, port):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind((host, port))
     s.listen(1)
     return s
 
-def listen(s):
-    connection, client = s.accept()
-    return connection.makefile('r+')
 
-def get_request(stream):
-    method = None
-    while True:
-        line = stream.readline()
-        if not line.strip(): 
-            break
-        elif not method: 
-            method, uri, protocol = line.split()
+def parse_request(sock):
+    data = sock.recv(4096)
+    if not data:
+        print "Bad request: no data"
+        return ''
+    line = data[0:data.find("\r")]
+    print line
+    #print headers
+    #headers = data[0:data.find("\r\n\r\n")]
+    method, uri, protocol = line.split()
     return uri
+
 
 def list_directory(uri):
     entries = os.listdir('.' + uri)
@@ -88,15 +93,16 @@ def list_directory(uri):
     return DIRECTORY_LISTING % (uri, uri, '\n'.join(
         [DIRECTORY_LINE % (e, e) for e in entries]))
 
+
 def get_file(path):
     f = open(path)
-    try: 
+    try:
         return f.read()
-    finally: 
+    finally:
         f.close()
 
+
 def get_content(uri):
-    print 'fetching:', uri
     try:
         path = '.' + uri
         if os.path.isfile(path):
@@ -106,27 +112,33 @@ def get_content(uri):
                 return (200, 'text/html', list_directory(uri))
             else:
                 return (301, uri + '/')
-        else: return (404, uri)
+        else:
+            return (404, uri)
     except IOError, e:
         return (404, e)
+
 
 def get_mime(uri):
     return mime_types.get(os.path.splitext(uri)[1], 'text/plain')
 
-def send_response(stream, content):
-    stream.write(response[content[0]] % content[1:])
+
+def send_response(sock, content):
+    template = response_headers[content[0]]
+    data = template % content[1:]
+    sock.sendall(data)
+
 
 if __name__ == '__main__':
-    args, nargs = sys.argv[1:], len(sys.argv) - 1
-    host, port = (args + defaults[-2 + nargs:])[0:2]
     server = server_socket(host, int(port))
     print 'starting %s on %s...' % (host, port)
     try:
         while True:
-            stream = listen (server)
-            send_response(stream, get_content(get_request(stream)))
-            stream.close()
+            sock, client_address = server.accept()
+            uri = parse_request(sock)
+            if uri:
+                content = get_content(uri)
+                send_response(sock, content)
+            sock.close()
     except KeyboardInterrupt:
         print 'shutting down...'
     server.close()
-
