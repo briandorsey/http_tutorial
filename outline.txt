@@ -1,0 +1,53 @@
+
+
+5  Intro
+25 Unit A
+25 Lab A
+25 Unit B
+25 Lab B
+25 Unit C
+25 Lab C
+10 Wrap up
+(15 flextime)
+
+
+Intro
+===========
+me
+inspiration - HTTP itself is simple, we've built the complication on top
+
+Unit A
+===========
+
+ip, tcp, udp, connection vs not, socket abstraction, socket pairs, 'server' vs 'client', telnet as socket client
+
+
+Lab A
+===========
+Play with simple TCP sockets. One request/reply, no threads.
+Socket excercise. Start with example echo client & server, modify to create a time server. Bonus, create whatismyip service: tell the client its' IP address.
+
+Unit B
+===========
+some protocols, HTTP, telnet HTTP demo
+
+Lab B
+===========
+Write a basic HTTP client with sockets (and hints!). Do GET, print only body.
+- basic curl implementation. bonus for supporting --head.
+
+Unit C
+===========
+walk through the 30 minute webserver, this is it, everything else is features: better performance, programmer abstractions, security
+
+Lab C
+===========
+Modify the "30 minute webserver" to add a resource with dynamic content. (basically, make some url return the value from time.time() as a proxy for some computation)
+what's my IP site
+show specific examples of dynamic content running
+
+Wrap up
+===========
+go forth and conquer the world!
+Check out cherrypy & Django
+
