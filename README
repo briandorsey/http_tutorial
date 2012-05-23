@@ -9,23 +9,31 @@ http://creativecommons.org/licenses/by/3.0/
 
 ------
 
-Let's build a dynamic HTTP server from scratch
+Demystify the Web: Build a Dynamic HTTP Server from Scratch
 
 We will cover just enough networking and HTTP to build a simple working server.
 You will finish this tutorial with a 100 line HTTP server and completely
-understand it.
+understand it. We'll be working in Python, but this content transcends language
+and is useful in nearly every language and OS. This will be a hands-on tutorial
+with three labs.
 
 Modern web frameworks hide most of the messy details of web programming and
-present an abstration for us to work with. Unfortunately, they often hide the
-clean simplicity of HTTP itself. If you're new to web programming, or have only
-used frameworks, it is hard to see exactly what an HTTP header is, or how an
-HTTP verb is specified on the wire. In this tutorial, we're going to start at
-the bottom, and work our way up to the HTTP fundamentals common to all web
+present a powerful abstration for us to work with. Unfortunately, they often
+hide the simplicity of HTTP itself. If you’re new to web programming, or have
+only used frameworks, it is hard to see exactly what an HTTP header is, or how
+an HTTP verb is specified on the wire. In this tutorial, we’re going to start
+at the bottom, and work our way up to the HTTP fundamentals common to all web
 frameworks. As complex as web programming can be, we'll see that HTTP is clear
 and simple.
 
 We will look at basic TCP/IP, the socket abstraction, request/response
-protocols, HTTP verbs, and HTTP headers.  Each of these is a topic worthy of in
-depth study itself, but we're going to skim them all, taking just what we need
-to build a working HTTP server.
+protocols, HTTP verbs, and HTTP headers. Each of these is a topic worthy of in
+depth study itself... but we're going to skim them all, taking just what we
+need to build a working HTTP server.
+
+Prerequisites:
+
+ * Comfortability with some programming language: variables, string manipulation, for loops and function calls.
+ * You will need a laptop with Python 2.x installed. (2.7 recommended).
+ * It will be convenient to have either GIT or SVN installed.
 
